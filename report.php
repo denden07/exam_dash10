@@ -65,19 +65,19 @@ echo asTable($playerResult);
  */
 echo '<h1>Report 2 - Best 3pt Shooting Teams</h1>';
 // write your query here
-$teamsSql ="SELECT c.name as 'Team Name', (SUM(d.3pt) / SUM(d.3pt_attempted) *100) as '3pt Percentage',
-            SUM(d.3pt) as 'Total 3pt Made',
-            count(e.3pt) as '# of players scored at least 1x3 pointer',
-            count(f.3pt_attempted) as '# of players attempted at least 1x3 pointer', 
-            count(g.3pt) as '# of players who failed to make at least 1x3 pointer'
+$teamsSql ="SELECT c.name AS 'Team Name', (SUM(d.3pt) / SUM(d.3pt_attempted) *100) AS '3pt Percentage',
+            SUM(d.3pt) AS 'Total 3pt Made',
+            count(e.3pt) AS '# of players scored at least 1x3 pointer',
+            count(f.3pt_attempted) AS '# of players attempted at least 1x3 pointer', 
+            count(g.3pt) AS '# of players who failed to make at least 1x3 pointer'
          
            FROM team c 
-           left JOIN roster on roster.team_code = c.code 
-                      left JOIN player_totals d on d.player_id = roster.id
-                      left join player_totals e on (e.player_id = roster.id) 
-                      and e.3pt >= 1
-                               left join player_totals g on g.player_id = roster.id and g.3pt = 0
-                      left JOIN player_totals f on f.player_id = roster.id where f.3pt_attempted >=1      
+           LEFT JOIN roster ON roster.team_code = c.code 
+                      LEFT JOIN player_totals d ON d.player_id = roster.id
+                      LEFT JOIN player_totals e ON (e.player_id = roster.id) 
+                      AND e.3pt >= 1
+                               left JOIN player_totals g ON g.player_id = roster.id AND g.3pt = 0
+                      left JOIN player_totals f ON f.player_id = roster.id WHERE f.3pt_attempted >=1      
            GROUP BY c.name";
 
 $teamsResult = query($teamsSql);
